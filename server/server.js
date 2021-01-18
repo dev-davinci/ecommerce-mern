@@ -7,18 +7,25 @@ import orderRoutes from "./routes/orderRoutes.js";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); // To parse any incoming request with JSON BODY
 
-dotenv.config();
-connectDB();
+dotenv.config(); // Loads environment variables from .env file to process.env
+
+connectDB(); // Invoking database connection function
 
 app.get("/", (req, res) => {
   res.send("API main route");
 });
 
+// ROUTES
+
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+
+app.use("/api/config/paypal", (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID);
+});
 
 app.use(notFound);
 
