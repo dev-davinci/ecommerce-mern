@@ -2,7 +2,10 @@ import asyncHandler from "express-async-handler";
 import User from "./../models/userModel.js";
 import generateToken from "./../utils/generateToken.js";
 
-// LOGIN USER
+// desc => User login, checks if the user exists
+// route => POST /api/users/signin
+// access => Public, anyone can the route
+
 
 export const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -23,7 +26,9 @@ export const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-// AUTHORIZING USER PROFILE
+// desc => User profle, gets the user profile
+// route => GET /api/users/profile
+// access => Private, only the user can access the profile
 
 export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -41,7 +46,9 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// REGESTERING NEW USERS
+// desc => User register, registers a new user
+// route => POST /api/users/signup
+// access => Public, anyone can the route
 
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -73,6 +80,10 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// desc => User profile update, Updates user data
+// route => PUT /api/users/profile
+// access => Private, anyone can the route
+
 export const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -97,3 +108,12 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 });
+
+// desc => Get all users, gets every user existing
+// route => GET /api/users
+// access => Private, only admin can access the route
+
+export const getAllUsers = asyncHandler(async(req, res) => {
+  const users = await User.find({})
+  res.json(users)
+})

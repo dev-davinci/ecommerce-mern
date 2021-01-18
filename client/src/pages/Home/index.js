@@ -11,6 +11,11 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
+  const userLogin = useSelector((state) => state.login);
+
+  const { userInfo } = userLogin;
+
+  console.log(userInfo);
 
   const { loading, products, error } = productList;
 
